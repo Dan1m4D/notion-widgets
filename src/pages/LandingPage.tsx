@@ -2,7 +2,6 @@ import WidgetPreview from "../components/WidgetPreview";
 import { widgets } from "../widgets";
 
 export default function LandingPage() {
-  const baseUrl = window.location.origin;
 
   return (
     <main className="min-h-screen bg-[#090a0f] text-white">
@@ -91,7 +90,7 @@ export default function LandingPage() {
                 key={widget.id}
                 name={widget.name}
                 description={widget.description}
-                url={`${baseUrl}${widget.path}`}
+                simpleUrl={widget.path}
               />
             ))}
           </div>

@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useState } from "react"
 
 export interface WidgetPreviewProps {
   name: string;
   description: string;
-  url: string;
+  simpleUrl: string;
 }
 
 export default function WidgetPreview({
   name,
   description,
-  url,
+  simpleUrl,
 }: WidgetPreviewProps) {
   const [copied, setCopied] = useState(false);
+  const url = window.location.origin + "/#" + simpleUrl;
 
   async function copyUrl() {
     try {
+      
       await navigator.clipboard.writeText(url);
 
       setCopied(true);
