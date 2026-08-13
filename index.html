@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Art Notion Clock</title>
+
+  <!-- 8-Bit Pixel Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Press Start 2P', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      image-rendering: pixelated;
+    }
+
+    /* Pixelated Dynamic Backgrounds */
+    .sky-dawn {
+      background: linear-gradient(180deg, #3d253b 0%, #a24b6f 50%, #d8736a 80%, #f7a361 100%);
+    }
+
+    .sky-day {
+      background: linear-gradient(180deg, #4da6ff 0%, #80c4ff 60%, #b3dbff 100%);
+    }
+
+    .sky-dusk {
+      background: linear-gradient(180deg, #2b1055 0%, #75225b 50%, #b54552 80%, #d67c51 100%);
+    }
+
+    .sky-night {
+      background: linear-gradient(180deg, #090a14 0%, #101428 60%, #1c233d 100%);
+    }
+
+    /* Container Box */
+    .clock-card {
+      background: rgba(0, 0, 0, 0.45);
+      border: 4px solid #ffffff;
+      box-shadow: 6px 6px 0px #000000;
+      padding: 24px 32px;
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 2px 2px 0px #000000;
+      z-index: 10;
+      min-width: 280px;
+    }
+
+    /* Time Display */
+    .time {
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    /* Date Display */
+    .date {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: #e0e0e0;
+    }
+
+    /* Pixelated Sun/Moon */
+    .celestial-body {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 16px auto;
+      box-shadow: 3px 3px 0px #000000;
+    }
+
+    .sun {
+      background-color: #ffe600;
+      border: 3px solid #ff9900;
+    }
+
+    .moon {
+      background-color: #e6e6e6;
+      border: 3px solid #999999;
+    }
+  </style>
+</head>
+<body id="bg">
+
+  <div class="clock-card">
+    <div id="celestial" class="celestial-body sun"></div>
+    <div class="time" id="time">00:00:00</div>
+    <div class="date" id="date">01 January 2026</div>
+  </div>
+
+  <script>
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    function updateClock() {
+      const now = new Date();
+
+      // Format Time (HH:MM:SS)
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+
+      // Format Date (dd MMMM YYYY)
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = monthNames[now.getMonth()];
+      const year = now.getFullYear();
+      document.getElementById('date').textContent = `${day} ${month} ${year}`;
+
+      // Reactive Background & Celestial Icon based on Hour
+      const currentHour = now.getHours();
+      const bg = document.getElementById('bg');
+      const celestial = document.getElementById('celestial');
+
+      // Reset classes
+      bg.className = '';
+      
+      if (currentHour >= 5 && currentHour < 8) {
+        // Dawn (5 AM - 7:59 AM)
+        bg.classList.add('sky-dawn');
+        celestial.className = 'celestial-body sun';
+      } else if (currentHour >= 8 && currentHour < 18) {
+        // Day (8 AM - 5:59 PM)
+        bg.classList.add('sky-day');
+        celestial.className = 'celestial-body sun';
+      } else if (currentHour >= 18 && currentHour < 21) {
+        // Dusk (6 PM - 8:59 PM)
+        bg.classList.add('sky-dusk');
+        celestial.className = 'celestial-body sun';
+      } else {
+        // Night (9 PM - 4:59 AM)
+        bg.classList.add('sky-night');
+        celestial.className = 'celestial-body moon';
+      }
+    }
+
+    // Run immediately and update every second
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
