@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Spotify Widget</title>
+
+  <!-- 8-Bit Pixel Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Press Start 2P', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      image-rendering: pixelated;
+      background: linear-gradient(180deg, #121212 0%, #1db954 100%);
+    }
+
+    /* Pixel Card */
+    .spotify-card {
+      background: rgba(0, 0, 0, 0.65);
+      border: 4px solid #ffffff;
+      box-shadow: 6px 6px 0px #000000;
+      padding: 20px;
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 2px 2px 0px #000000;
+      z-index: 10;
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge {
+      font-size: 0.55rem;
+      color: #1db954;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Pixelated Music Note Pulse */
+    .note-icon {
+      display: inline-block;
+      animation: pulse 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    /* Album Art Container */
+    .album-art-wrapper {
+      width: 80px;
+      height: 80px;
+      border: 3px solid #ffffff;
+      box-shadow: 3px 3px 0px #000000;
+      position: relative;
+      background-color: #000;
+    }
+
+    .album-art {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+
+    /* Text Formatting */
+    .track-info {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .song-title {
+      font-size: 0.75rem;
+      color: #ffffff;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .artist-name {
+      font-size: 0.55rem;
+      color: #b3b3b3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Pixel Progress Bar */
+    .progress-container {
+      width: 100%;
+      height: 10px;
+      background-color: #333333;
+      border: 2px solid #ffffff;
+      box-shadow: 2px 2px 0px #000000;
+      position: relative;
+      margin-top: 4px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #1db954;
+      transition: width 1s linear;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="spotify-card">
+    <div class="badge">
+      <span class="note-icon">♫</span> NOW PLAYING
+    </div>
+
+    <div class="album-art-wrapper">
+      <!-- Change src to your preferred album art image -->
+      <img id="album-cover" class="album-art" src="https://picsum.photos/100" alt="Album Cover">
+    </div>
+
+    <div class="track-info">
+      <div class="song-title" id="song-title">Resonance</div>
+      <div class="artist-name" id="artist-name">HOME</div>
+    </div>
+
+    <!-- Simulated Song Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+  </div>
+
+  <script>
+    // Customize your default track details here!
+    const track = {
+      title: "Resonance",
+      artist: "HOME",
+      durationSeconds: 212, // 3:32
+      // Pixel art or retro album image link:
+      coverUrl: "https://i.ibb.co/3kWyN7M/pixel-album.png" 
+    };
+
+    let currentSeconds = 45; // Starting point for demonstration
+
+    function initTrack() {
+      document.getElementById('song-title').textContent = track.title;
+      document.getElementById('artist-name').textContent = track.artist;
+      
+      // Fallback to demo cover if custom image isn't loaded
+      const coverEl = document.getElementById('album-cover');
+      coverEl.onerror = () => {
+        coverEl.src = "https://picsum.photos/100";
+      };
+      if (track.coverUrl) coverEl.src = track.coverUrl;
+    }
+
+    function updateProgress() {
+      currentSeconds++;
+      if (currentSeconds > track.durationSeconds) {
+        currentSeconds = 0;
+      }
+
+      const percent = (currentSeconds / track.durationSeconds) * 100;
+      document.getElementById('progress-bar').style.width = `${percent}%`;
+    }
+
+    initTrack();
+    setInterval(updateProgress, 1000);
+  </script>
+
+</body>
+</html>
