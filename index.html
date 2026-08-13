@@ -125,9 +125,9 @@
     <div class="widget-card">
       <div class="widget-title">Pixel Dynamic Clock</div>
       <div class="preview-frame">
-        <iframe src="./widgets/pixel-clock/index.html"></iframe>
+        <iframe src=></iframe>
       </div>
-      <button class="copy-btn" onclick="copyWidgetLink('./widgets/pixel-clock/index.html', this)">
+      <button class="copy-btn" onclick="copyWidgetLink(getWidgetLink('./widgets/pixel-clock/index.html'), this)">
         📋 Copy Notion Embed Link
       </button>
     </div>
@@ -165,6 +165,10 @@
         console.error('Failed to copy: ', err);
       });
     }
+
+    getWidgetLink = (relativePath) => {
+      return new URL(relativePath, window.location.href).href;
+    };
   </script>
 
 </body>
