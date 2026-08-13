@@ -31,7 +31,7 @@ export const widgets: WidgetDefinition[] = [
     name: "Pixel Clock",
     description:
       "A dynamic pixel-art clock with a changing BitDay landscape.",
-    path: "/widgets/clock",
+    path: window.location.pathname + "widgets/clock",
     component: PixelClock,
   },
 
@@ -41,7 +41,7 @@ export const widgets: WidgetDefinition[] = [
   //   id: "focus",
   //   name: "Focus Time",
   //   description: "A pixel-art Pomodoro timer.",
-  //   path: "/widgets/focus",
+  //   path: window.location.pathname + "/widgets/focus",
   //   component: FocusTime,
   // },
 ];
