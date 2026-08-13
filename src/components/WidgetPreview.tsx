@@ -12,7 +12,7 @@ export default function WidgetPreview({
   simpleUrl,
 }: WidgetPreviewProps) {
   const [copied, setCopied] = useState(false);
-  const url = window.location.origin + "notion-widgets/#" + simpleUrl;
+  const url = window.location.origin + "/notion-widgets/#" + simpleUrl;
 
   async function copyUrl() {
     try {
