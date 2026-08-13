@@ -7,7 +7,7 @@ import PixelClock from './widgets/PixelClock.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/notion-widgets">
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
