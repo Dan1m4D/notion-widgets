@@ -2,40 +2,32 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches:
-      - main # Change to 'master' if your default branch is master
+    branches: [ main ]
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Inject Spotify Client ID
+      - name: Create .env and inject secret
         run: |
-          sed -i 's/__SPOTIFY_CLIENT_ID_PLACEHOLDER__/${{ secrets.SPOTIFY_CLIENT_ID }}/g' widgets/spotify-widget/index.html
+          echo "SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}" > .env
+          export $(cat .env | xargs)
+          envsubst '$SPOTIFY_CLIENT_ID' < widgets/spotify-widget/index.html > widgets/spotify-widget/index.tmp
+          mv widgets/spotify-widget/index.tmp widgets/spotify-widget/index.html
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Artifacts
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
 
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
