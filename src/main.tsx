@@ -1,13 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { Route, Routes, BrowserRouter } from 'react-router'
+import { Route, Routes, HashRouter } from 'react-router'
 import LandingPage from './pages/LandingPage.tsx'
 import PixelClock from './widgets/PixelClock.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename="/notion-widgets">
+    <HashRouter>
       <Routes>
         <Route path="/" element={<LandingPage />} />
 
@@ -17,6 +17,6 @@ createRoot(document.getElementById('root')!).render(
       />
 
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   </StrictMode>,
 )
